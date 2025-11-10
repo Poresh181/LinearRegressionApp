@@ -31,5 +31,41 @@ else:
 
 st.subheader("Dataset Preview")
 st.write(df.head())
+
+#Model feature selection
+
+numeric_cols = df.select_dtypes(include = np.number).columns.tolist()
+if len(numeric_cols) < 2:
+  st.error("Need atleast two numeric columns for regression.")
+  st.stop()
+
+target = st.selectbox("Select target variable", numeric_cols)
+features = st.multiselect("Select input feature columns", [col for col in numeric_cols if col != target], default = [col for col in numeric_cols if col != target])
+
+
+if len(features) == 0:
+  st.write("Please select atleast one feature")
+  st.stop()
+
+
+df = df[features + [target]].dropna()
+
+x = df[features]
+y = df[target]
+
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(x)
+
+X_train, X_test, y_train, y_test = train_test_split (X_scaled, y, test_size = 0, random_state = 42)
+
+model = LinearRegression()
+model.fit(x_train,y_train)
+
+y_pred = model.predict(X_test)
+
+
+
+
+
     
   
