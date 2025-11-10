@@ -7,3 +7,6 @@ from sklearn.model_selection import train_test_split
 
 st.title("Linear Regression Web Application")
 st.subheader("Data Science With Poresh")
+
+#sidebar
+st.sidebar.header("Upload CSV Data Or Use Sample")
